@@ -134,3 +134,4 @@
 /Users/samlaguna/Desktop/FullStack24L/API/obj/Debug/net8.0/API.pdb
 /Users/samlaguna/Desktop/FullStack24L/API/obj/Debug/net8.0/API.genruntimeconfig.cache
 /Users/samlaguna/Desktop/FullStack24L/API/obj/Debug/net8.0/ref/API.dll
+/Users/samlaguna/Desktop/FullStack24L/API/obj/Debug/net8.0/API.sourcelink.json
