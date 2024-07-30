@@ -34,6 +34,7 @@ import axios from "axios";
 import { BASE_URL } from "../constant";
 import ProductSkeleton from "./ProductSkeleton.tsx";
 import ProductFrom from "./ProductFrom.tsx";
+import ViewDetails from "./ViewDetails.tsx";
 
 export interface Product {
   id: number;
@@ -45,13 +46,14 @@ export interface Product {
 
 const ProductTable = () => {
   const toast = useToast();
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const { isOpen: viewDialogOpen, onOpen: onViewDialogOpen, onClose:onviewDialogClose } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [currentData, setcurrentData] = useState<Product>({} as Product);
   //UseStates
   const [data, setData] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  // const [error, setError] = useState("");
+  
 
   
   //function to help us fetch our data
@@ -111,7 +113,16 @@ const ProductTable = () => {
     })
   }
 
-
+  const handleViewDetail = (id:number) => {
+    axios.get<Product>(BASE_URL+"Product/"+id)
+    .then(res => {
+      setcurrentData(res.data)
+      onViewDialogOpen()
+    }).catch(error => {
+      console.log(error);
+      
+    })
+  }
 
   return (
     <>
@@ -183,7 +194,7 @@ const ProductTable = () => {
                         </PopoverContent>
                       </Popover>
                     
-                      <ViewIcon boxSize={23} color={"blue.100"} />
+                      <ViewIcon onClick={() => handleViewDetail(product.id)} boxSize={23} color={"blue.100"} />
                     </HStack>
                   </Td>
                 </Tr>
@@ -212,6 +223,9 @@ const ProductTable = () => {
             onClose={onClose}
           />
         )}
+
+        {viewDialogOpen && <ViewDetails isOpen={viewDialogOpen} onClose={onviewDialogClose} currentData={currentData} />}
+
       </Box>
     </>
   );
